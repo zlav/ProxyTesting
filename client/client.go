@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	url := "http://127.0.0.1:8081"
+	url := "http://my_first_url.vcap.me:8081"
 	headers := "A"
 	client := &http.Client{
 		Transport: &http.Transport{
@@ -36,7 +36,6 @@ func main() {
 			return
 		} else {
 			fmt.Printf("Response: %+v\n\n", resp)
-			fmt.Printf("Response: %+v\n\n", resp.Body())
 			resp.Body.Close()
 		}
 	}
