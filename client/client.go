@@ -30,12 +30,14 @@ func main() {
 		if resp != nil {
 			defer resp.Body.Close()
 		}
+
 		if err != nil {
 			fmt.Printf("Error found: %+v\nResponse: %+v\n", err, resp)
 			return
+		} else {
+			fmt.Printf("Response: %+v\n\n", resp)
+			fmt.Printf("Response: %+v\n\n", resp.Body())
+			resp.Body.Close()
 		}
-
-		fmt.Printf("Response: %+v\n\n", resp)
-		resp.Body.Close()
 	}
 }
