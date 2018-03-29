@@ -26,6 +26,6 @@ sleep 6
 
 while :
 do
-  nats-pub 'router.register' '{"host":"127.0.0.1","port":4567,"uris":["my_first_url.vcap.me","my_second_url.vcap.me"],"tags":{"another_key":"another_value","some_key":"some_value"}}'
+  nats-pub 'router.register' '{"host":"127.0.0.1","port":8080,"uris":["my_first_url.vcap.me","my_second_url.vcap.me"],"tags":{"another_key":"another_value","some_key":"some_value"}}'
   sleep 60
 done
