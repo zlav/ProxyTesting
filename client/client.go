@@ -2,13 +2,36 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 	"time"
 )
 
+type Reader struct {
+	read string
+	done bool
+}
+
+func NewReader(toRead string) *Reader {
+	return &Reader{toRead, false}
+}
+
+func (r *Reader) Read(p []byte) (n int, err error) {
+	// if r.done {
+	return 0, io.EOF
+	// }
+	// fmt.Println([]byte(r.read))
+	// for i, b := range []byte(r.read) {
+	// 	p[i] = b
+	// }
+	// r.done = true
+	// return len(r.read), nil
+}
+
 func main() {
 
-	url := "http://my_first_url.vcap.me:8081"
+	// url := "http://my_first_url.vcap.me:8081"
+	url := "http://localhost:8081"
 	headers := "A"
 	client := &http.Client{
 		Transport: &http.Transport{
@@ -20,7 +43,7 @@ func main() {
 	ticker := time.NewTicker(1 * time.Second)
 
 	for range ticker.C {
-		request, err := http.NewRequest("GET", url, nil)
+		request, err := http.NewRequest("GET", url, NewReader("test"))
 		if err != nil {
 			panic(err)
 		}
