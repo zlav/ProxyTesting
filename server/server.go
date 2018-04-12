@@ -19,7 +19,7 @@ func main() {
 
 	// http.HandleFunc("/", handler)
 	s := &http.Server{
-		Addr:    ":8080",
+		Addr:    "localhost:8081",
 		Handler: http.Handler(&handler{}),
 		// ReadTimeout:    10 * time.Second,
 		// WriteTimeout:   10 * time.Second,
