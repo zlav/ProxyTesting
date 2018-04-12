@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 type Reader struct{}
@@ -17,7 +18,10 @@ func (r *Reader) Read(p []byte) (n int, err error) {
 	// 	p[i] = b
 	// }
 	// r.done = true
-	// return len(r.read), nil
+	time.Sleep(100 * time.Millisecond)
+	fmt.Println("|")
+	p[0] = 'A'
+	return 1, nil
 }
 
 func main() {
@@ -29,7 +33,7 @@ func main() {
 		Transport: &http.Transport{
 			MaxIdleConnsPerHost: 1024,
 		},
-		//	Timeout: 5 * time.Second,
+		// Timeout: 5 * time.Second,
 	}
 
 	// ticker := time.NewTicker(1 * time.Second)
@@ -41,16 +45,13 @@ func main() {
 
 	request.Header.Set("name", headers)
 	resp, err := client.Do(request)
-	if resp != nil {
-		defer resp.Body.Close()
-	}
 
 	if err != nil {
 		fmt.Printf("Error found: %+v\nResponse: %+v\n", err, resp)
 		return
 	} else {
+		defer resp.Body.Close()
 		fmt.Printf("Response: %+v\n\n", resp)
-		resp.Body.Close()
 	}
 	// }
 }
