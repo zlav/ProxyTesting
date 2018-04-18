@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 	"time"
 )
@@ -12,32 +13,37 @@ func NewReader() *Reader {
 	return &Reader{}
 }
 
+var count int
+
+func Counter() int {
+	count = count + 1
+	return count
+}
+
 func (r *Reader) Read(p []byte) (n int, err error) {
-	// fmt.Println([]byte(r.read))
-	// for i, b := range []byte(r.read) {
-	// 	p[i] = b
-	// }
-	// r.done = true
 	time.Sleep(100 * time.Millisecond)
 	fmt.Println("|")
 	p[0] = 'A'
+	if Counter() > 80 {
+		return 0, io.EOF
+	}
 	return 1, nil
 }
 
 func main() {
 
-	// url := "http://my_first_url.vcap.me:8081"
-	url := "http://localhost:8081"
+	// url := "http://localhost:8081"
+	// Gorouter Setting
+	url := "http://my_first_url.localhost.routing.cf-app.com:8081"
+
 	headers := "A"
 	client := &http.Client{
 		Transport: &http.Transport{
 			MaxIdleConnsPerHost: 1024,
 		},
-		// Timeout: 5 * time.Second,
 	}
 
-	// ticker := time.NewTicker(1 * time.Second)
-	//for range ticker.C {
+	fmt.Println(url)
 	request, err := http.NewRequest("GET", url, NewReader())
 	if err != nil {
 		panic(err)
@@ -53,5 +59,4 @@ func main() {
 		defer resp.Body.Close()
 		fmt.Printf("Response: %+v\n\n", resp)
 	}
-	// }
 }
